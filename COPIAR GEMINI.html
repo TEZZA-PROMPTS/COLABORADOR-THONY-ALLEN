@@ -6,11 +6,14 @@
   
   <title>THONY ALLEN • SURF PROMPTS</title>
 
-  <!-- CONFIGURAÇÃO PARA O LINK -->
-  <meta property="og:title" content="THONY ALLEN • SURF PROMPTS">
-  <meta property="og:description" content="SURF PROMPTS OFICIAL">
+  <!-- CONFIGURAÇÃO PARA O LINK (MODIFICADA PARA OCULTAR IMAGENS) -->
+  <meta property="og:title" content="THONY ALLEN • TEZZA PROMPTS">
+  <meta property="og:description" content="TEZZA PROMPTS OFICIAL">
   <meta property="og:type" content="website">
-  <meta name="description" content="SURF PROMPTS OFICIAL">
+  <!-- Removendo og:image explicitamente e adicionando robots -->
+  <meta name="robots" content="noimageindex, noarchive">
+  <meta name="googlebot" content="noimageindex">
+  <meta name="description" content="TEZZA PROMPTS OFICIAL">
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Bangers&family=Press+Start+2P&family=Caveat:wght@700&display=swap" rel="stylesheet">
 
@@ -41,10 +44,11 @@
       align-items: center;
     }
 
+    /* TÉCNICA 1: Imagem de fundo via pseudo-elemento ou classe com background-image oculta scrapers básicos */
     .bg-image {
       position: fixed;
       inset: 0;
-      background: url('https://files.manuscdn.com/user_upload_by_module/session_file/310519663238797647/mqyLDbUGvTpGCbAr.jpg') no-repeat center center fixed;
+      /* A URL da imagem foi movida para o JS para evitar detecção no carregamento estático do crawler */
       background-size: cover;
       z-index: -1;
       filter: brightness(0.7);
@@ -63,7 +67,7 @@
     #startOverlay {
       position: fixed;
       inset: 0;
-      background: url('https://files.manuscdn.com/user_upload_by_module/session_file/310519663238797647/buSfRzJNzfaspHkV.png') no-repeat center center;
+      /* Fundo movido para o JS */
       background-size: cover;
       z-index: 9999;
       display: flex;
@@ -92,10 +96,10 @@
 
     .corner-gif-wave {
       position: absolute;
-      bottom: -10px; /* Ajustado para seguir a borda */
+      bottom: -10px; 
       left: 0;
       right: 0;
-      width: 100%; /* Ocupa toda a largura */
+      width: 100%; 
       height: auto;
       z-index: 3;
       filter: drop-shadow(0 0 15px rgba(0,0,0,0.5));
@@ -335,11 +339,12 @@
 
   <!-- Overlay de Início -->
   <div id="startOverlay" onclick="initPage()">
-    <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYXYwcndjNHlxd3N6MXh3bnF2YjcxaDI2a2wza25rOWFlcWQxNGQxZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/oEiOqjku8mykiu0KOa/giphy.gif" alt="Zóio de Lula" class="intro-gif-main">
-    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZnF2am0wcnJoZmY4YTZpNGJqZ3FyN2I0ODhuejl4cmk5MmhzaXFtZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Mb9GGpjLPorX0qHSF7/giphy.gif" alt="Onda Pulsante" class="corner-gif-wave">
+    <!-- TÉCNICA 2: Atributos src vazios e carregados via JS para enganar crawlers de imagem -->
+    <img id="introGif" src="" alt="Zóio de Lula" class="intro-gif-main">
+    <img id="cornerGif" src="" alt="Onda Pulsante" class="corner-gif-wave">
   </div>
 
-  <div class="bg-image"></div>
+  <div class="bg-image" id="bgImg"></div>
 
   <audio id="bgMusic" loop>
     <source src="musicthony.mp3" type="audio/mpeg">
@@ -347,9 +352,9 @@
 
   <header>
     <div class="logo-container">
-      <img id="gifLeft" src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzhtc2VhaGowNG51d28yZGhoNjN3aHllOXh3NXc5dmk5YWU2a2lldiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kfR34O48id03W35Tk0/giphy.gif" class="logo-gif">
+      <img id="gifLeft" src="" class="logo-gif">
       <h1 class="pixel-text highlight-text">THONY ALLEN</h1>
-      <img id="gifRight" src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzhtc2VhaGowNG51d28yZGhoNjN3aHllOXh3NXc5dmk5YWU2a2lldiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kfR34O48id03W35Tk0/giphy.gif" class="logo-gif" style="transform: scaleX(-1);">
+      <img id="gifRight" src="" class="logo-gif" style="transform: scaleX(-1);">
     </div>
     <p class="sub-title">TEZZA PROMPTS OFICIAL</p>
   </header>
@@ -383,6 +388,20 @@
 
   <script>
     const music = document.getElementById('bgMusic');
+
+    // TÉCNICA 3: Carregamento dinâmico de recursos após a interação ou carregamento da página.
+    // Isso impede que bots simples que apenas leem o HTML estático encontrem as URLs das imagens.
+    window.onload = function() {
+      // Injetando as URLs via JS
+      document.getElementById('introGif').src = "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYXYwcndjNHlxd3N6MXh3bnF2YjcxaDI2a2wza25rOWFlcWQxNGQxZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/oEiOqjku8mykiu0KOa/giphy.gif";
+      document.getElementById('cornerGif').src = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZnF2am0wcnJoZmY4YTZpNGJqZ3FyN2I0ODhuejl4cmk5MmhzaXFtZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Mb9GGpjLPorX0qHSF7/giphy.gif";
+      document.getElementById('gifLeft').src = "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzhtc2VhaGowNG51d28yZGhoNjN3aHllOXh3NXc5dmk5YWU2a2lldiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kfR34O48id03W35Tk0/giphy.gif";
+      document.getElementById('gifRight').src = "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzhtc2VhaGowNG51d28yZGhoNjN3aHllOXh3NXc5dmk5YWU2a2lldiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kfR34O48id03W35Tk0/giphy.gif";
+      
+      // Carregando fundos
+      document.getElementById('bgImg').style.backgroundImage = "url('https://files.manuscdn.com/user_upload_by_module/session_file/310519663238797647/mqyLDbUGvTpGCbAr.jpg')";
+      document.getElementById('startOverlay').style.backgroundImage = "url('https://files.manuscdn.com/user_upload_by_module/session_file/310519663238797647/buSfRzJNzfaspHkV.png')";
+    };
 
     function initPage() {
       const overlay = document.getElementById('startOverlay');
