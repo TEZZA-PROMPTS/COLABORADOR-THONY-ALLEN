@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+  <title>THONY ALLEN • SURF PROMPTS</title>
+
+  <!-- CONFIGURAÇÃO PARA O LINK (MODIFICADA PARA OCULTAR IMAGENS) -->
+  <meta property="og:title" content="THONY ALLEN • TEZZA PROMPTS">
+  <meta property="og:description" content="TEZZA PROMPTS OFICIAL">
+  <meta property="og:type" content="website">
+  <!-- Removendo og:image explicitamente e adicionando robots -->
+  <meta name="robots" content="noimageindex, noarchive">
+  <meta name="googlebot" content="noimageindex">
+  <meta name="description" content="TEZZA PROMPTS OFICIAL">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Bangers&family=Press+Start+2P&family=Caveat:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --beach-sand: #F5E6CA;
+      --ocean-blue: #0077B6;
+      --tropical-green: #2D6A4F;
+      --sun-yellow: #FFD166;
+      --foam-white: #F8F9FA;
+      --deep-ocean: #03045E;
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'Poppins', sans-serif;
+      background: #000;
+      min-height:100vh;
+      overflow-x:hidden;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* TÉCNICA 1: Imagem de fundo via pseudo-elemento ou classe com background-image oculta scrapers básicos */
+    .bg-image {
+      position: fixed;
+      inset: 0;
+      /* A URL da imagem foi movida para o JS para evitar detecção no carregamento estático do crawler */
+      background-size: cover;
+      z-index: -1;
+      filter: brightness(0.7);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,119,182,0.3), rgba(3,4,94,0.6));
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* OVERLAY DE INÍCIO */
+    #startOverlay {
+      position: fixed;
+      inset: 0;
+      /* Fundo movido para o JS */
+      background-size: cover;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: opacity 0.5s ease;
+      overflow: hidden;
+    }
+
+    #startOverlay::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.2);
+      z-index: -1;
+    }
+
+    .intro-gif-main {
+      width: 350px;
+      max-width: 90%;
+      z-index: 2;
+      filter: drop-shadow(0 0 20px rgba(0,0,0,0.8));
+    }
+
+    .corner-gif-wave {
+      position: absolute;
+      bottom: -10px; 
+      left: 0;
+      right: 0;
+      width: 100%; 
+      height: auto;
+      z-index: 3;
+      filter: drop-shadow(0 0 15px rgba(0,0,0,0.5));
+      animation: pulseGif 2s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    @keyframes pulseGif {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.05); opacity: 1; }
+    }
+
+    /* HEADER */
+    header{
+      position:relative;
+      z-index:2;
+      text-align:center;
+      padding:60px 20px 40px;
+      width: 100%;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .logo-gif {
+      width: 120px;
+      height: auto;
+      filter: drop-shadow(0 0 15px var(--ocean-blue));
+    }
+
+    .highlight-text {
+      font-family: 'Bangers', cursive;
+      color: var(--sun-yellow);
+      letter-spacing: 4px;
+      text-shadow: 
+        4px 4px 0px #000,
+        -1px -1px 0px #000,  
+        1px -1px 0px #000,
+        -1px  1px 0px #000,
+        1px  1px 0px #000;
+      display: inline-block;
+    }
+
+    .pixel-text {
+      font-size: 4.5rem;
+    }
+
+    .sub-title {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.7rem;
+      color: var(--beach-sand);
+      margin-top: 10px;
+      letter-spacing: 2px;
+      opacity: 0.9;
+      text-shadow: 2px 2px 0px #000;
+    }
+
+    /* CONTAINER PRINCIPAL */
+    .main-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1000px;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* WAVE STYLE PROMPT BOX */
+    .wave-frame {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      background: var(--beach-sand);
+      border-radius: 30px 30px 100px 30px;
+      padding: 40px;
+      border: 8px solid var(--deep-ocean);
+      box-shadow: 20px 20px 0px var(--ocean-blue);
+      overflow: hidden;
+    }
+
+    .wave-frame::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 15px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%230077B6" fill-opacity="1" d="M0,160L48,176C96,192,192,224,288,224C384,224,480,192,576,165.3C672,139,768,117,864,128C960,139,1056,181,1152,186.7C1248,192,1344,160,1392,144L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>');
+      background-size: cover;
+    }
+
+    .prompt-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 25px;
+      border-bottom: 4px dashed var(--deep-ocean);
+      padding-bottom: 15px;
+    }
+
+    .prompt-header .highlight-text {
+      font-size: 2.2rem;
+      color: var(--tropical-green);
+      text-shadow: 2px 2px 0px #000;
+    }
+
+    .gemini-text {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.8rem;
+      color: var(--ocean-blue);
+      margin-top: 5px;
+      text-shadow: 1px 1px 0px #000;
+    }
+
+    .prompt-display {
+      background: var(--foam-white);
+      border: 4px solid var(--ocean-blue);
+      border-radius: 15px;
+      padding: 30px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.15rem;
+      color: var(--deep-ocean);
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      min-height: 180px;
+      position: relative;
+      box-shadow: inset 4px 4px 10px rgba(0,0,0,0.1);
+    }
+
+    /* BOTÃO SURFISTA */
+    .copy-btn {
+      margin-top: 35px;
+      width: 100%;
+      padding: 22px;
+      font-family: 'Bangers', cursive;
+      font-size: 2.5rem;
+      background: var(--sun-yellow);
+      color: var(--deep-ocean);
+      border: 5px solid var(--deep-ocean);
+      border-radius: 50px;
+      cursor: pointer;
+      transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      box-shadow: 0px 10px 0px var(--ocean-blue);
+    }
+
+    .copy-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 15px 0px var(--ocean-blue);
+      background: var(--foam-white);
+    }
+
+    .copy-btn:active {
+      transform: translateY(5px);
+      box-shadow: 0px 0px 0px var(--ocean-blue);
+    }
+
+    /* EFEITO DE SUCESSO */
+    .smoke-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 119, 182, 0.9);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .smoke-overlay.active {
+      opacity: 1;
+    }
+
+    .jutsu-text {
+      font-family: 'Bangers', cursive;
+      font-size: 5rem;
+      color: var(--sun-yellow);
+      text-shadow: 4px 4px 0px #000;
+      animation: wavePop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      text-align: center;
+    }
+
+    @keyframes wavePop {
+      0% { transform: scale(0) translateY(100px); }
+      100% { transform: scale(1) translateY(0); }
+    }
+
+    footer {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 60px 40px;
+      width: 100%;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.65rem;
+      color: var(--beach-sand);
+      line-height: 2.5;
+      text-shadow: 2px 2px 0px #000;
+    }
+
+    footer a {
+      color: var(--sun-yellow);
+      text-decoration: none;
+      border-bottom: 2px solid var(--ocean-blue);
+    }
+
+    /* RESPONSIVIDADE */
+    @media (max-width: 900px) {
+      .main-content {
+        flex-direction: column;
+      }
+      .wave-frame {
+        padding: 30px 20px;
+        border-radius: 20px 20px 60px 20px;
+      }
+      .pixel-text { font-size: 3rem; }
+      .jutsu-text { font-size: 3rem; }
+      .logo-gif { width: 80px; }
+      .intro-gif-main { width: 250px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Overlay de Início -->
+  <div id="startOverlay" onclick="initPage()">
+    <!-- TÉCNICA 2: Atributos src vazios e carregados via JS para enganar crawlers de imagem -->
+    <img id="introGif" src="" alt="Zóio de Lula" class="intro-gif-main">
+    <img id="cornerGif" src="" alt="Onda Pulsante" class="corner-gif-wave">
+  </div>
+
+  <div class="bg-image" id="bgImg"></div>
+
+  <audio id="bgMusic" loop>
+    <source src="musicthony.mp3" type="audio/mpeg">
+  </audio>
+
+  <header>
+    <div class="logo-container">
+      <img id="gifLeft" src="" class="logo-gif">
+      <h1 class="pixel-text highlight-text">THONY ALLEN</h1>
+      <img id="gifRight" src="" class="logo-gif" style="transform: scaleX(-1);">
+    </div>
+    <p class="sub-title">TEZZA PROMPTS OFICIAL</p>
+  </header>
+
+  <div class="main-content">
+    <div class="wave-frame">
+      <div class="prompt-header">
+        <h2 class="highlight-text">THONY ALLEN COLABORADOR</h2>
+        <div class="gemini-text">GEMINI [MODO PRO]</div>
+      </div>
+      
+      <div class="prompt-display" id="promptContent">
+
+Ultra-realistic cinematic avatar 3D male portrait, Blender Cycles render in CGI, inspired by Seedream 5.0 realism and high-end IMVU/The Sims virtual aesthetics. Clearly a fictional digital avatar and not a real photograph. Hyper-detailed virtual influencer design with stylized CGI masculine proportions, luxury editorial aesthetics, advanced cinematic lighting, ultra-polished 3D rendering, and “TEZZA PROMPTS” text at the bottom center in elegant minimalist typography.
+
+CAMERA & COMPOSITION
+
+Vertical 9:16 aspect ratio luxury editorial portrait photographed indoors with cinematic symmetry. Medium portrait composition capturing the seated male subject together with the full upper body of the cheetah resting across his lap. Eye-level camera perspective with perfectly centered framing emphasizing authority, elegance, and visual balance. Subject occupies the central focal point while the cheetah naturally fills the foreground. Sharp focus maintained on the face, sunglasses, jewelry, hands, shirt fabric, cheetah fur, and chair details, while the background paintings remain softly defocused through shallow cinematic depth of field.
+
+POSE & BODY POSITIONING
+
+Subject seated comfortably against the backrest of an ornate luxury armchair with an upright yet relaxed posture. Spine aligned naturally with the chair while the torso remains square to the camera without noticeable rotation. Shoulders stay relaxed and level, conveying effortless confidence. Chest remains open with natural masculine posture beneath the partially unbuttoned shirt. Left arm bends comfortably at the elbow with the forearm extending outward, allowing the relaxed left hand to rest gently on the cheetah's head with naturally curved fingers and light contact pressure. Right arm rests naturally alongside the body with the elbow slightly flexed while the forearm extends diagonally downward across the lap. Right hand rests softly over the cheetah's back near the hip area with relaxed fingers following the natural contour of the animal's body. Both wrists maintain neutral anatomical alignment without stiffness. Legs remain naturally separated beneath the cheetah, supporting its body comfortably while remaining almost completely concealed. Body weight distributes evenly into the chair, producing realistic compression against the upholstery and creating a composed luxury editorial posture. The cheetah lies calmly across the subject's lap with relaxed forelegs extended toward the foreground and its head positioned upright beside the subject, creating a peaceful interaction that reinforces confidence and harmony.
+
+HEAD POSITION & GAZE
+
+Head positioned upright with a subtle backward inclination and minimal lateral rotation. Chin remains naturally elevated, reinforcing a composed and authoritative masculine presence. Eyes remain concealed behind dark luxury sunglasses while facial orientation stays directed toward the camera, maintaining confident editorial symmetry.
+
+FACIAL EXPRESSION
+
+Relaxed masculine facial expression with naturally closed lips, calm facial muscles, and understated confidence. Expression conveys emotional control, sophistication, quiet authority, and luxury editorial presence without exaggerated emotion.
+
+FACE & IDENTITY
+
+Adult male CGI avatar with strong masculine facial structure, defined jawline, balanced cheekbones, straight proportional nose, naturally full lips, thick eyebrows, subtle trimmed facial hair, and symmetrical facial proportions. Facial identity closely follows the reference including facial proportions, jaw structure, eyebrow shape, beard density, skin tone, hairstyle, and masculine beauty aesthetics. Hyper-detailed Seedream 5.0 skin rendering combined with polished IMVU/The Sims-inspired CGI realism while remaining clearly fictional and digitally generated instead of a photoreal human appearance.
+
+HAIR
+
+Short black hair with a straight texture, closely cropped on the sides and back while remaining slightly fuller across the top. Hair follows a clean, neatly groomed shape with subtle natural volume, controlled direction, realistic strand definition, and minimal movement, preserving a refined luxury appearance.
+
+ACCESSORIES & DETAILS
+
+Luxury black rectangular sunglasses featuring realistic glossy lenses and premium metallic frame details. Multiple layered gold chain necklaces with realistic polished reflections and engraved pendants naturally positioned across the chest. Gold wristwatch with intricate metallic finishing and physically accurate reflections. Multiple gold rings distributed naturally across both hands with premium ray-traced metallic highlights. Black satin shirt displaying realistic fabric sheen, elegant folds, and physically accurate silk reflections. Ornate carved wooden armchair upholstered in deep burgundy velvet with highly detailed wood carvings, luxurious cushioning, and realistic fabric texture. Cheetah positioned naturally across the subject's lap featuring ultra-detailed fur, realistic spotted pattern, physically accurate anatomy, lifelike whiskers, expressive eyes, and refined CGI animal rendering integrated seamlessly into the composition.
+
+OUTFIT
+
+Luxury black satin button-up shirt worn partially unbuttoned, exposing the upper chest and layered gold jewelry. Premium tailored black trousers remain partially visible beneath the cheetah. Clothing exhibits realistic fabric draping, subtle tension folds, physically accurate satin reflections, and elegant luxury editorial styling.
+
+BODY & PHYSIQUE
+
+Athletic masculine physique with broad shoulders, defined chest structure, balanced upper-body proportions, lean muscular arms, natural clavicle definition, slim waist proportions, and realistic anatomical transitions inspired by premium IMVU/The Sims virtual avatar aesthetics. CGI anatomy maintains refined masculine contouring with polished realism.
+
+SKIN & REALISM
+
+Ultra-detailed Seedream 5.0 skin rendering with realistic pores, subtle skin texture, hydrated complexion, soft natural highlights, and physically accurate subsurface scattering across the face, neck, chest, and hands. Blender Cycles materials preserve premium CGI realism while maintaining luxury virtual influencer aesthetics without excessive smoothing.
+
+LIGHTING
+
+Soft cinematic studio lighting combined with warm luxury ambient illumination. Directional key lighting gently illuminates the face, jewelry, shirt, cheetah fur, and armchair while subtle fill lighting preserves rich shadow detail. Physically accurate Blender Cycles ray tracing creates refined reflections across metallic accessories, satin fabric, sunglasses, polished wood, and realistic animal fur while maintaining premium editorial contrast.
+
+ENVIRONMENT
+
+Luxury interior featuring a dark sophisticated room with elegant wall paneling and framed artwork softly visible in the background. Rich burgundy velvet armchair and dark architectural surroundings create an exclusive executive atmosphere. Background remains softly blurred to emphasize subject isolation while preserving cinematic environmental depth.
+
+MOOD & AESTHETIC
+
+Luxury power aesthetic blending high-fashion editorial styling, refined masculine confidence, cinematic sophistication, premium virtual influencer culture, and elegant executive ambiance. Calm, dominant, polished, exclusive, and timeless atmosphere emphasizing wealth, confidence, and premium CGI realism.
+
+STYLE & RENDER QUALITY
+
+Ultra-photorealistic Blender Cycles CGI render, cinematic realism, Seedream 5.0 masculine beauty rendering, 8K UHD quality, physically accurate lighting and materials, realistic skin micro-detail, IMVU-inspired avatar repaint aesthetics, high-fidelity masculine CGI rendering, realistic atmospheric depth, polished virtual influencer styling, advanced ray tracing, realistic reflections, luxury editorial lighting, ultra-clean cinematic render quality, and clearly fictional CGI-avatar aesthetics instead of a real photograph.
+        
+      </div>
+
+      <button class="copy-btn" onclick="copyPrompt(event)">COPIAR PROMPT</button>
+    </div>
+  </div>
+
+  <div class="smoke-overlay" id="smoke">
+    <div class="jutsu-text">PROMPT NA ONDA!</div>
+    <p style="color: white; font-family: 'Bangers', cursive; font-size: 2rem; text-align: center; margin-top: 10px;">MARQUE @thony_.vu</p>
+  </div>
+
+  <footer>
+    MARQUE <a href="https://www.instagram.com/thony_.vu" target="_blank">@thony_.vu</a><br>
+    THONY ALLEN • TEZZA PROMPTS — CONTEÚDO PROTEGIDO.
+  </footer>
+
+  <script>
+    const music = document.getElementById('bgMusic');
+
+    // TÉCNICA 3: Carregamento dinâmico de recursos após a interação ou carregamento da página.
+    // Isso impede que bots simples que apenas leem o HTML estático encontrem as URLs das imagens.
+    window.onload = function() {
+      // Injetando as URLs via JS
+      document.getElementById('introGif').src = "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExYXYwcndjNHlxd3N6MXh3bnF2YjcxaDI2a2wza25rOWFlcWQxNGQxZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/oEiOqjku8mykiu0KOa/giphy.gif";
+      document.getElementById('cornerGif').src = "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZnF2am0wcnJoZmY4YTZpNGJqZ3FyN2I0ODhuejl4cmk5MmhzaXFtZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Mb9GGpjLPorX0qHSF7/giphy.gif";
+      document.getElementById('gifLeft').src = "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzhtc2VhaGowNG51d28yZGhoNjN3aHllOXh3NXc5dmk5YWU2a2lldiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kfR34O48id03W35Tk0/giphy.gif";
+      document.getElementById('gifRight').src = "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzhtc2VhaGowNG51d28yZGhoNjN3aHllOXh3NXc5dmk5YWU2a2lldiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kfR34O48id03W35Tk0/giphy.gif";
+      
+      // Carregando fundos
+      document.getElementById('bgImg').style.backgroundImage = "url('https://files.manuscdn.com/user_upload_by_module/session_file/310519663238797647/mqyLDbUGvTpGCbAr.jpg')";
+      document.getElementById('startOverlay').style.backgroundImage = "url('https://files.manuscdn.com/user_upload_by_module/session_file/310519663238797647/buSfRzJNzfaspHkV.png')";
+    };
+
+    function initPage() {
+      const overlay = document.getElementById('startOverlay');
+      overlay.style.opacity = '0';
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, 500);
+
+      music.volume = 0.5;
+      music.play().catch(err => console.log("Erro ao tocar áudio:", err));
+    }
+
+    async function copyPrompt(event) {
+      event.stopPropagation();
+      
+      const text = document.getElementById('promptContent').innerText;
+      
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (err) {
+        const tempInput = document.createElement('textarea');
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+      }
+
+      const smoke = document.getElementById('smoke');
+      smoke.classList.add('active');
+      
+      setTimeout(() => {
+        smoke.classList.remove('active');
+      }, 1500);
+    }
+  </script>
+
+</body>
+</html>
